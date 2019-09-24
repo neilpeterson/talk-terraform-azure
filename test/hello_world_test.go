@@ -13,7 +13,7 @@ import (
 func TestHelloWorld(t *testing.T) {
 	t.Parallel()
 
-	// Generate a random DSN name to prevent a naming conflict
+	// Generate a random DNS name to prevent a naming conflict
 	uniqueID := random.UniqueId()
 	uniqueName := fmt.Sprintf("Hello-World-%s", uniqueID)
 
