@@ -31,6 +31,7 @@ steps:
   displayName: 'Terraform Validate'
 
 - script: |
+   rm -rf /home/vsts/work/1/s/test/test_output/
    export GOPATH=$(Build.Repository.LocalPath)
    cd test
    go get github.com/gruntwork-io/terratest/modules/terraform
