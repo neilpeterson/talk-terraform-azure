@@ -33,7 +33,7 @@ steps:
 - script: |
    export GOPATH=$(Build.Repository.LocalPath)
    cd test
-   go get github.com/gruntwork-io/terratest/modules/terraform
+   go get github.com/gruntwork-io/terratest/modules/terraform@0.17.6
    go test | tee test_output.log
    terratest_log_parser -testlog test_output.log -outputdir test_output
   displayName: 'Run Terraform Tests'
