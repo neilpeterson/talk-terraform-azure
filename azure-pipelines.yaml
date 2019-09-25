@@ -39,10 +39,10 @@ steps:
   displayName: 'Run Terraform Tests'
   env:
    # ARM_ACCESS_KEY: $(ARM_ACCESS_KEY)
-   ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-   ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-   ARM_TENANT_ID: $(ARM_TENANT_ID)
-   ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+   ARM_CLIENT_ID: $(internal-client-id)
+   ARM_CLIENT_SECRET: $(internal-secret)
+   ARM_TENANT_ID: $(internal-tenant-id)
+   ARM_SUBSCRIPTION_ID: $(internal-subscription-id)
 
 - script: |
    cd modules/hello-world
