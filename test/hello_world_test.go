@@ -1,6 +1,7 @@
 package test
 
 import (
+	"crypto/tls"
 	"fmt"
 	"strings"
 	"testing"
@@ -34,8 +35,11 @@ func TestHelloWorld(t *testing.T) {
 	fqdn := terraform.Output(t, terraformOptions, "fqdn")
 	query := fmt.Sprintf("http://%s", fqdn)
 
+	// Setup a TLS configuration to submit with the helper (required but blank)
+	tlsConfig := tls.Config{}
+
 	// Validate the provisioned application
-	http_helper.HttpGetWithCustomValidation(t, query, func(status int, content string) bool {
+	http_helper.HttpGetWithCustomValidation(t, query, &tlsConfig, func(status int, content string) bool {
 		return status == 200 &&
 			strings.Contains(content, "Welcome")
 	})
