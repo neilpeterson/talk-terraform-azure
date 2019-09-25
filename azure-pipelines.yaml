@@ -54,7 +54,7 @@ steps:
 - task: CmdLine@2
   displayName: 'List files'
   inputs:
-    script: 'ls'
+    script: 'ls /home/vsts/work/1/s/test/test_output/'
 
 - task: PublishTestResults@2
   displayName: 'Publish Terratest Results'
