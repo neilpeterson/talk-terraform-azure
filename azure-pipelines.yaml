@@ -22,7 +22,7 @@ steps:
 
 - script: |
    # cd terraform-config
-   terraform init terraform-config/ -backend=false
+   terraform init -backend=false terraform-config/
   displayName: 'Terraform Init'
 
 - script: |
