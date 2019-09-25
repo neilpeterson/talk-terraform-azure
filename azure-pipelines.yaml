@@ -21,13 +21,13 @@ steps:
   displayName: 'Install Terratest Utilities'
 
 - script: |
-   cd modules/hello-world
-   terraform init -backend=false
+   # cd terraform-config
+   terraform init terraform-config/ -backend=false
   displayName: 'Terraform Init'
 
 - script: |
-   cd modules/hello-world
-   terraform validate
+   # cd modules/hello-world
+   terraform validate terraform-config/
   displayName: 'Terraform Validate'
 
 - script: |
