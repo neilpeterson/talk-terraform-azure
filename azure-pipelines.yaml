@@ -44,12 +44,17 @@ steps:
    ARM_TENANT_ID: $(internal-tenant-id)
    ARM_SUBSCRIPTION_ID: $(internal-subscription-id)
 
-- script: |
-   cd modules/hello-world
-   rm -rf .terraform
-   rm terraform.tfstate
-   rm terraform.tfstate.backup
-  displayName: 'Scrub Terraform Artifacts'
+# - script: |
+#    cd modules/hello-world
+#    rm -rf .terraform
+#    rm terraform.tfstate
+#    rm terraform.tfstate.backup
+#   displayName: 'Scrub Terraform Artifacts'
+
+- task: CmdLine@2
+  displayName: 'List files'
+  inputs:
+    script: 'ls'
 
 - task: PublishTestResults@2
   displayName: 'Publish Terratest Results'
