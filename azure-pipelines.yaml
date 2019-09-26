@@ -30,11 +30,15 @@ steps:
    terraform validate terraform-config/
   displayName: 'Terraform Validate'
 
+- task: CmdLine@2
+  inputs:
+    script: 'rm -rf /home/vsts/work/1/s/test/test_output/'
+  displayName: 'Remove old tests'
+
 - script: |
    export GOPATH=$(Build.Repository.LocalPath)
    cd test
-   dep ensure --add github.com/gruntwork-io/terratest/modules/terraform@0.17.6
-   # go get github.com/gruntwork-io/terratest/modules/terraform@0.17.6
+   go get github.com/gruntwork-io/terratest/modules/terraform
    go test | tee test_output.log
    terratest_log_parser -testlog test_output.log -outputdir test_output
   displayName: 'Run Terraform Tests'
@@ -52,17 +56,25 @@ steps:
 #    rm terraform.tfstate.backup
 #   displayName: 'Scrub Terraform Artifacts'
 
-- task: CmdLine@2
-  displayName: 'List files'
-  inputs:
-    script: 'ls'
+# - task: CmdLine@2
+#   displayName: 'List files'
+#   inputs:
+#     script: 'ls /home/vsts/work/1/s/test/test_output2/'
+
+# - task: PublishTestResults@2
+#   displayName: 'Publish Terratest Results'
+#   inputs:
+#     testResultsFiles: '/home/vsts/work/1/s/test/test_output/report.xml'
+#     mergeTestResults: true
+#     failTaskOnFailedTests: true
 
 - task: PublishTestResults@2
-  displayName: 'Publish Terratest Results'
   inputs:
-    testResultsFiles: '/home/vsts/work/1/s/test/test_output/report.xml'
+    testResultsFormat: 'NUnit'
+    testResultsFiles: '/home/vsts/work/1/s/test/test_output2/report.xml'
     mergeTestResults: true
     failTaskOnFailedTests: true
+    testRunTitle: 'Terraform Tests'
 
 - task: PublishPipelineArtifact@0
   displayName: 'Publish Terraform Artifacts'
