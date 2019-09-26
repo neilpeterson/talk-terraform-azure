@@ -59,14 +59,22 @@ steps:
 - task: CmdLine@2
   displayName: 'List files'
   inputs:
-    script: 'ls /home/vsts/work/1/s/test/test_output/'
+    script: 'ls /home/vsts/work/1/s/test/test_output2/'
+
+# - task: PublishTestResults@2
+#   displayName: 'Publish Terratest Results'
+#   inputs:
+#     testResultsFiles: '/home/vsts/work/1/s/test/test_output/report.xml'
+#     mergeTestResults: true
+#     failTaskOnFailedTests: true
 
 - task: PublishTestResults@2
-  displayName: 'Publish Terratest Results'
   inputs:
-    testResultsFiles: '/home/vsts/work/1/s/test/test_output/report.xml'
+    testResultsFormat: 'NUnit'
+    testResultsFiles: '/home/vsts/work/1/s/test/test_output2/report.xml'
     mergeTestResults: true
     failTaskOnFailedTests: true
+    testRunTitle: 'Terraform Tests'
 
 - task: PublishPipelineArtifact@0
   displayName: 'Publish Terraform Artifacts'
