@@ -56,10 +56,10 @@ steps:
 #    rm terraform.tfstate.backup
 #   displayName: 'Scrub Terraform Artifacts'
 
-- task: CmdLine@2
-  displayName: 'List files'
-  inputs:
-    script: 'ls /home/vsts/work/1/s/test/test_output2/'
+# - task: CmdLine@2
+#   displayName: 'List files'
+#   inputs:
+#     script: 'ls /home/vsts/work/1/s/test/test_output2/'
 
 # - task: PublishTestResults@2
 #   displayName: 'Publish Terratest Results'
