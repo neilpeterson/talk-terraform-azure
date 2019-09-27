@@ -59,6 +59,25 @@ stages:
         echo $IP
       displayName: 'Echo IP'
 
+    - task: PowerShell@2
+      displayName: Install Pester
+      inputs:
+        targetType: 'inline'
+        script: |
+          Find-Module pester | Install-Module -Force
+
+    - task: PowerShell@2
+      displayName: Run Pester tests
+      inputs:
+        targetType: 'inline'
+        script: 'invoke-pester -Script @{ Path = ''./test/''; Parameters = @{ webSite = ''$IP'' }} -OutputFile "./test-results.xml" -OutputFormat ''NUnitXML'''
+
+    - task: PublishTestResults@2
+      displayName: Publish test results
+      inputs:
+        testResultsFormat: 'NUnit'
+        testResultsFiles: '**/test-results.xml'
+        failTaskOnFailedTests: true
 
 # - script: |
 #    export GOPATH=$(Build.Repository.LocalPath)
