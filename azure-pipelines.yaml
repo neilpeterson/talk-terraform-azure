@@ -63,7 +63,7 @@ stages:
       displayName: Run Pester tests
       inputs:
         targetType: 'inline'
-        script: 'invoke-pester -Script @{ Path = ''./test/''; Parameters = @{ webSite = ''$IP'' }} -OutputFile "./test-results.xml" -OutputFormat ''NUnitXML'''
+        script: 'invoke-pester -Script @{ Path = ''./test/''; Parameters = @{ webSite = ''$(IP)'' }} -OutputFile "./test-results.xml" -OutputFormat ''NUnitXML'''
 
     - task: PublishTestResults@2
       displayName: Publish test results
