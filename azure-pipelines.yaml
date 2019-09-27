@@ -15,29 +15,29 @@ steps:
   displayName: 'Install Go on Build Agent'
 
 - script: |
-   curl --location --silent --fail --show-error -o terratest_log_parser https://github.com/gruntwork-io/terratest/releases/download/v0.13.13/terratest_log_parser_linux_amd64
+   curl --location --silent --fail --show-error -o terratest_log_parser https://github.com/gruntwork-io/terratest/releases/download/v0.19.1/terratest_log_parser_linux_amd64
    chmod +x terratest_log_parser
    sudo mv terratest_log_parser /usr/local/bin
   displayName: 'Install Terratest Utilities'
 
 - script: |
-   # cd terraform-config
-   terraform init -backend=false terraform-config/
+   cd terraform-config
+   terraform init -backend=false
   displayName: 'Terraform Init'
 
 - script: |
-   # cd modules/hello-world
-   terraform validate terraform-config/
+   # cd terraform-config
+   terraform validate
   displayName: 'Terraform Validate'
-
-- task: CmdLine@2
-  inputs:
-    script: 'rm -rf /home/vsts/work/1/s/test/test_output/'
-  displayName: 'Remove old tests'
 
 - script: |
    export GOPATH=$(Build.Repository.LocalPath)
+   cd ../test/
+   pwd
+   ls
    cd test
+   pwd
+   ls
    go get github.com/gruntwork-io/terratest/modules/terraform
    go test | tee test_output.log
    terratest_log_parser -testlog test_output.log -outputdir test_output
@@ -56,22 +56,15 @@ steps:
 #    rm terraform.tfstate.backup
 #   displayName: 'Scrub Terraform Artifacts'
 
-# - task: CmdLine@2
-#   displayName: 'List files'
-#   inputs:
-#     script: 'ls /home/vsts/work/1/s/test/test_output2/'
-
-# - task: PublishTestResults@2
-#   displayName: 'Publish Terratest Results'
-#   inputs:
-#     testResultsFiles: '/home/vsts/work/1/s/test/test_output/report.xml'
-#     mergeTestResults: true
-#     failTaskOnFailedTests: true
+- task: CmdLine@2
+  displayName: 'List files'
+  inputs:
+    script: 'cat /home/vsts/work/1/s/test/test_output/report.xml'
 
 - task: PublishTestResults@2
   inputs:
-    testResultsFormat: 'NUnit'
-    testResultsFiles: '/home/vsts/work/1/s/test/test_output2/report.xml'
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '/home/vsts/work/1/s/test/test_output/report.xml'
     mergeTestResults: true
     failTaskOnFailedTests: true
     testRunTitle: 'Terraform Tests'
