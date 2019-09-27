@@ -58,7 +58,7 @@ steps:
 
 - task: PublishTestResults@2
   inputs:
-    testResultsFormat: 'NUnit'
+    testResultsFormat: 'JUnit'
     testResultsFiles: '/home/vsts/work/1/s/test/test_output2/report.xml'
     mergeTestResults: true
     failTaskOnFailedTests: true
