@@ -5,23 +5,23 @@ stages:
 
 - stage: test
   jobs:
-  - job:
+  - job: test
 
     pool:
-    name: Hosted Ubuntu 1604
+      name: Hosted Ubuntu 1604
 
-  steps:
+    steps:
 
-  - script: |
-    terraform init -backend=false terraform-config/
-    displayName: 'Terraform Init'
+    - script: |
+        terraform init -backend=false terraform-config/
+      displayName: 'Terraform Init'
 
-  - script: |
-    terraform validate
-    displayName: 'Terraform Validate'
+    - script: |
+        terraform validate
+      displayName: 'Terraform Validate'
 
-  - script: |
-    terraform plan --out plan.out terraform-config/
+    - script: |
+        terraform plan --out plan.out terraform-config/
 
 # - script: |
 #    export GOPATH=$(Build.Repository.LocalPath)
