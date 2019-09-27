@@ -31,6 +31,11 @@ stages:
 
     - script: |
         terraform apply plan.out -var="resource_group=hello-world-$(Build.BuildId)"
+      env:
+        ARM_CLIENT_ID: $(internal-client-id)
+        ARM_CLIENT_SECRET: $(internal-secret)
+        ARM_TENANT_ID: $(internal-tenant-id)
+        ARM_SUBSCRIPTION_ID: $(internal-subscription-id)
       displayName: 'Terraform Apply'
 
     - task: AzureCLI@2
