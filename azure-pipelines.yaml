@@ -21,7 +21,7 @@ stages:
       displayName: 'Terraform Validate'
 
     - script: |
-        terraform plan --out plan.out terraform-config/
+        terraform plan -var="resource_group=hello-world-$(Build.BuildId)" --out plan.out terraform-config/
       env:
         ARM_CLIENT_ID: $(internal-client-id)
         ARM_CLIENT_SECRET: $(internal-secret)
@@ -30,7 +30,7 @@ stages:
       displayName: 'Terraform Plan'
 
     - script: |
-        terraform apply -var="resource_group=hello-world-$(Build.BuildId)" plan.out
+        terraform apply plan.out
       env:
         ARM_CLIENT_ID: $(internal-client-id)
         ARM_CLIENT_SECRET: $(internal-secret)
