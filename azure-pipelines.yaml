@@ -30,7 +30,7 @@ stages:
       displayName: 'Terraform Plan'
 
     - script: |
-        terraform apply plan.out
+        terraform apply plan.out -var="resource_group=hello-world-$(Build.BuildId)"
       displayName: 'Terraform Apply'
 
     - task: AzureCLI@2
