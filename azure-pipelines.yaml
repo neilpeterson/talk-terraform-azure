@@ -1,75 +1,43 @@
 variables:
 - group: azure-credentials
 
-pool:
-  name: Hosted Ubuntu 1604
+stages:
 
-steps:
-- script: |
-   apt-get update
-   apt-get -y upgrade
-   wget https://dl.google.com/go/go1.12.2.linux-amd64.tar.gz
-   sudo tar -xvf go1.12.2.linux-amd64.tar.gz
-   sudo mv go /usr/local
-   export GOPATH=$(Build.Repository.LocalPath)
-  displayName: 'Install Go on Build Agent'
+- stage: test
+  jobs:
+  - job:
 
-- script: |
-   curl --location --silent --fail --show-error -o terratest_log_parser https://github.com/gruntwork-io/terratest/releases/download/v0.19.1/terratest_log_parser_linux_amd64
-   chmod +x terratest_log_parser
-   sudo mv terratest_log_parser /usr/local/bin
-  displayName: 'Install Terratest Utilities'
+    pool:
+    name: Hosted Ubuntu 1604
 
-- script: |
-   cd terraform-config
-   terraform init -backend=false
-  displayName: 'Terraform Init'
+  steps:
 
-- script: |
-   # cd terraform-config
-   terraform validate
-  displayName: 'Terraform Validate'
+  - script: |
+    terraform init -backend=false terraform-config/
+    displayName: 'Terraform Init'
 
-- script: |
-   export GOPATH=$(Build.Repository.LocalPath)
-   cd ../test/
-   pwd
-   ls
-   cd test
-   pwd
-   ls
-   go get github.com/gruntwork-io/terratest/modules/terraform
-   go test | tee test_output.log
-   terratest_log_parser -testlog test_output.log -outputdir test_output
-  displayName: 'Run Terraform Tests'
-  env:
-   # ARM_ACCESS_KEY: $(ARM_ACCESS_KEY)
-   ARM_CLIENT_ID: $(internal-client-id)
-   ARM_CLIENT_SECRET: $(internal-secret)
-   ARM_TENANT_ID: $(internal-tenant-id)
-   ARM_SUBSCRIPTION_ID: $(internal-subscription-id)
+  - script: |
+    terraform validate
+    displayName: 'Terraform Validate'
+
+  - script: |
+    terraform plan --out plan.out terraform-config/
 
 # - script: |
-#    cd modules/hello-world
-#    rm -rf .terraform
-#    rm terraform.tfstate
-#    rm terraform.tfstate.backup
-#   displayName: 'Scrub Terraform Artifacts'
-
-- task: CmdLine@2
-  displayName: 'List files'
-  inputs:
-    script: 'cat /home/vsts/work/1/s/test/test_output/report.xml'
-
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: '/home/vsts/work/1/s/test/test_output/report.xml'
-    mergeTestResults: true
-    failTaskOnFailedTests: true
-    testRunTitle: 'Terraform Tests'
-
-- task: PublishPipelineArtifact@0
-  displayName: 'Publish Terraform Artifacts'
-  inputs:
-    targetPath: .
+#    export GOPATH=$(Build.Repository.LocalPath)
+#    cd ../test/
+#    pwd
+#    ls
+#    cd test
+#    pwd
+#    ls
+#    go get github.com/gruntwork-io/terratest/modules/terraform
+#    go test | tee test_output.log
+#    terratest_log_parser -testlog test_output.log -outputdir test_output
+#   displayName: 'Run Terraform Tests'
+#   env:
+#    # ARM_ACCESS_KEY: $(ARM_ACCESS_KEY)
+#    ARM_CLIENT_ID: $(internal-client-id)
+#    ARM_CLIENT_SECRET: $(internal-secret)
+#    ARM_TENANT_ID: $(internal-tenant-id)
+#    ARM_SUBSCRIPTION_ID: $(internal-subscription-id)
