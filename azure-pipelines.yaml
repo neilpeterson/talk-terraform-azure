@@ -30,11 +30,6 @@ steps:
    terraform validate terraform-config/
   displayName: 'Terraform Validate'
 
-- task: CmdLine@2
-  displayName: 'List files'
-  inputs:
-    script: 'ls /home/vsts/work/1/s/test/test_output/'
-
 - script: |
    export GOPATH=$(Build.Repository.LocalPath)
    cd test
