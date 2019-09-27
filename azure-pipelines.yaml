@@ -33,6 +33,28 @@ stages:
         terraform apply plan.out
       displayName: 'Terraform Apply'
 
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'ca-nepeters-demo-test (3762d87c-ddb8-425f-b2fc-29e5e859edaf)'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az container show --resource-group hello-world --name HelloWorld --query ipAddress.ip -o tsv'
+
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'ca-nepeters-demo-test (3762d87c-ddb8-425f-b2fc-29e5e859edaf)'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          IP=$(az container show --resource-group hello-world --name HelloWorld --query ipAddress.ip -o tsv)
+          
+          echo "##vso[task.setvariable variable IP;]$IP"
+
+    - script: |
+        echo $IP
+      displayName: 'Echo IP'
+
+
 # - script: |
 #    export GOPATH=$(Build.Repository.LocalPath)
 #    cd ../test/
