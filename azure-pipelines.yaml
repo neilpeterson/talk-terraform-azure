@@ -30,7 +30,7 @@ stages:
       displayName: 'Terraform Plan'
 
     - script: |
-        terraform apply plan.out -var="resource_group=hello-world-$(Build.BuildId)"
+        terraform apply -var="resource_group=hello-world-$(Build.BuildId)" plan.out
       env:
         ARM_CLIENT_ID: $(internal-client-id)
         ARM_CLIENT_SECRET: $(internal-secret)
