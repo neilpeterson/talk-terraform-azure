@@ -21,18 +21,18 @@ steps:
   displayName: 'Install Terratest Utilities'
 
 - script: |
-   # cd terraform-config
-   terraform init -backend=false terraform-config/
+   cd terraform-config
+   terraform init -backend=false
   displayName: 'Terraform Init'
 
 - script: |
-   # cd modules/hello-world
-   terraform validate terraform-config/
+   # cd terraform-config
+   terraform validate
   displayName: 'Terraform Validate'
 
 - script: |
    export GOPATH=$(Build.Repository.LocalPath)
-   cd test
+   cd ../test
    go get github.com/gruntwork-io/terratest/modules/terraform
    go test | tee test_output.log
    terratest_log_parser -testlog test_output.log -outputdir test_output
