@@ -59,7 +59,7 @@ steps:
 - task: CmdLine@2
   displayName: 'List files'
   inputs:
-    script: 'cat /home/vsts/work/1/s/test/test_output.log'
+    script: 'cat /home/vsts/work/1/s/test/test_output/report.xml'
 
 - task: PublishTestResults@2
   inputs:
