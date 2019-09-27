@@ -27,6 +27,11 @@ stages:
         ARM_CLIENT_SECRET: $(internal-secret)
         ARM_TENANT_ID: $(internal-tenant-id)
         ARM_SUBSCRIPTION_ID: $(internal-subscription-id)
+      displayName: 'Terraform Plan'
+
+    - script: |
+        terraform apply plan.out
+      displayName: 'Terraform Apply'
 
 # - script: |
 #    export GOPATH=$(Build.Repository.LocalPath)
