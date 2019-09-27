@@ -35,6 +35,9 @@ steps:
    cd ../test/
    pwd
    ls
+   cd test
+   pwd
+   ls
    go get github.com/gruntwork-io/terratest/modules/terraform
    go test | tee test_output.log
    terratest_log_parser -testlog test_output.log -outputdir test_output
