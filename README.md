@@ -18,6 +18,12 @@ echo "access_key: $ACCOUNT_KEY"
 
 When done, update backend configuration and the storage account keys list command.
 
+Run Terraform init to pre-download packages.
+
+```
+terraform init
+```
+
 ## Demo 1: Basic Terraform Configuration
 
 - Show basic Terraform configuration
@@ -49,7 +55,7 @@ Prop up storage account key.
 
 ```
 az storage account keys list --resource-group tstate --account-name tstate071
-export ARM_ACCESS_KEY=
+export ARM_ACCESS_KEY=zLtwjBWQRY1IO2Yesx+j75jx8XWJYAIk/MbuyI1VIREiwUktamSMjapTnW8x/YMTdI9aU2ZvIKQHEYWVbmC/3Q==
 ```
 
 Re-initalize to copy state to storage account
