@@ -81,21 +81,22 @@ stages:
         testResultsFiles: '**/test-results.xml'
         failTaskOnFailedTests: true
 
-# - script: |
-#    export GOPATH=$(Build.Repository.LocalPath)
-#    cd ../test/
-#    pwd
-#    ls
-#    cd test
-#    pwd
-#    ls
-#    go get github.com/gruntwork-io/terratest/modules/terraform
-#    go test | tee test_output.log
-#    terratest_log_parser -testlog test_output.log -outputdir test_output
-#   displayName: 'Run Terraform Tests'
-#   env:
-#    # ARM_ACCESS_KEY: $(ARM_ACCESS_KEY)
-#    ARM_CLIENT_ID: $(internal-client-id)
-#    ARM_CLIENT_SECRET: $(internal-secret)
-#    ARM_TENANT_ID: $(internal-tenant-id)
-#    ARM_SUBSCRIPTION_ID: $(internal-subscription-id)
+- stage: Clean Up
+  condition: always()
+  jobs:
+  - job: cleanUp 
+
+    pool:
+      name: Hosted Ubuntu 1604
+
+    steps:
+
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'ca-nepeters-demo-test (3762d87c-ddb8-425f-b2fc-29e5e859edaf)'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az group delete --name hello-world-$(Build.BuildId) --yes'
+
+    
+
