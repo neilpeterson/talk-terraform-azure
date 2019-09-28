@@ -81,10 +81,10 @@ stages:
         testResultsFiles: '**/test-results.xml'
         failTaskOnFailedTests: true
 
-- stage: Clean Up
+- stage: Clean_Up
   condition: always()
   jobs:
-  - job: cleanUp 
+  - job: clean_up 
 
     pool:
       name: Hosted Ubuntu 1604
