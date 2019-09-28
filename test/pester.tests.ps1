@@ -5,7 +5,7 @@ param (
 Describe 'Status Code' {
     $a = Invoke-WebRequest $webSite
 
-    It 'A test that should be true' {
-      $a.StatusCode | Should -Be 202
+    It 'HTTP Status is 200' {
+      $a.StatusCode | Should -Be 200
     }
   }
