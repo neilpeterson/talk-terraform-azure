@@ -55,7 +55,7 @@ Prop up storage account key.
 
 ```
 az storage account keys list --resource-group tstate --account-name tstate071
-export ARM_ACCESS_KEY=zLtwjBWQRY1IO2Yesx+j75jx8XWJYAIk/MbuyI1VIREiwUktamSMjapTnW8x/YMTdI9aU2ZvIKQHEYWVbmC/3Q==
+export ARM_ACCESS_KEY=
 ```
 
 Re-initalize to copy state to storage account
