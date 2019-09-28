@@ -21,9 +21,19 @@ stages:
 
     steps:
 
-    - script: |
-        terraform init -backend=false terraform-config/
-      displayName: 'Terraform Init'
+  - task: CmdLine@2
+    displayName: 'Terraform Init'
+    inputs:
+      script: 'terraform init -backend=false terraform-config/'
+
+    # - script: |
+    #     terraform init -backend=false terraform-config/
+    #   displayName: 'Terraform Init'
+
+  - task: CmdLine@2
+    displayName: 'Terraform Validate'
+    inputs:
+      script: 'terraform validate'
 
     - script: |
         terraform validate
